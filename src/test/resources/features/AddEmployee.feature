@@ -1,30 +1,65 @@
-#Homework 1: Implement Add Employee Feature and steps for each scenario:
-@addEmployee
-Feature: Add Employee
+#Author: Kerim Class
+Feature: Add Employee Feature
+  I want to test the Add Employee Functionality
 
-  @regression
+  Background: 
+    Given user is logged in with valid credentials
+    And user navigates to AddEmployee page
+
+  @AddEmployee
   Scenario: Add Employee with first and last name
-    Given user is logged in with valid credentials
-    And user navigates to Add Employee page
-    When user enters firstname lastname location
-    And clicks on save button(Add Employee Page)
-    Then take screenshot
+    When user enters employee first name and last name
+    And user selects a location
+    And user clicks on save button
+    Then validate that employee is added successfully
 
-@regression
-  Scenario: Add Employee without employee id (delete employee id before saving)
-    Given user is logged in with valid credentials
-    And user navigates to Add Employee page
-    When user enters firstname lastname location
-    When delete employee id
-    And clicks on save button(Add Employee Page)
-    Then take screenshot
+  @task
+  Scenario: Add Employee with parametrized first and last name
+    When user enters employee first name "Cristiano" and last name "Ronaldo"
+    And user selects a location
+    And user clicks on save button
+    Then validate that employee "Cristiano Ronaldo" is added successfully
 
-@regression @smoke
+  @third @sprint15
+  Scenario: Add Employee without employee id
+    When user enters employee first name and last name
+    And user deletes employee id
+    And user selects a location
+    And user clicks on save button
+    Then validate that employee is added successfully
+
+  @fourth @sprint15
   Scenario: Add Employee and create login Credentials
-    Given user is logged in with valid credentials
-    And user navigates to Add Employee page
-    When user enters firstname lastname location
-    When clicks create login Details
-    And user enters username password and confirmPassword
-    And clicks on save button(Add Employee Page)
-    Then take screenshot
+    When user enters employee first name "Betim" and last name "Lusha"
+    And user selects a location
+    And user clicks on Create Login Details
+    And user provides credentials
+    And user clicks on save button
+    Then validate that employee "Betim Lusha" is added successfully
+
+  #To perform DDT using Scenario Outline and Examples keyword
+  @scenarioOutline
+  Scenario Outline: Adding multiple employees with scenario outline
+    When user enters employee "<FirstName>", "<MiddleName>" and "<LastName>"
+    And user selects a location "<Location>"
+    And user clicks on save button
+    Then validate that "<FirstName>" and "<LastName>" is added successfully
+
+    Examples: 
+      | FirstName | MiddleName | LastName | Location                         |
+      | Joe       | R          | Biden    | New York Sales Office            |
+      | Donald    | J          | Trump    | Chinese Development Center       |
+      | Barack    | H          | Obama    | South African Development Center |
+
+  #To perform DDT using Datatable
+  @dataTable2
+  Scenario: Adding multiple employees with Datatable
+    When user enters employee details and clicks on save and validates it is added
+      | FirstName | MiddleName | LastName    |
+      | Emine     | Y          | Karakaya    |
+      | Flori     | L          | Hidri       |
+      | Vugar     | B          | Alisultanov |
+
+  @excelDataTable @sprint15
+  Scenario: Add multiple employees from Excel
+    When user enters employee data from "Employee" excel sheet then save

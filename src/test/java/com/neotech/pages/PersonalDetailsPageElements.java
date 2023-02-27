@@ -1,5 +1,7 @@
 package com.neotech.pages;
 
+import java.util.List;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -18,22 +20,44 @@ public class PersonalDetailsPageElements extends CommonMethods {
 	public WebElement employeeName;
 
 	@FindBy(id = "licenseNo")
-	public WebElement licenseNrBox;
+	public WebElement driverLicense;
 
-	@FindBy(id = "select-options-f4a0328c-dd05-e77b-88ef-6859ea288bce")
-	public WebElement nationality;
+	@FindBy(xpath = "//label[text()='Smoker']")
+	public WebElement smokerBox;
 
-	@FindBy(id = "select-options-f3474c2f-89d2-e561-4970-50e4c65baf8c")
-	public WebElement gender;
+	@FindBy(xpath = "//div[@id='emp_gender_inputfileddiv']/div/input")
+	public WebElement genderInput;
 
-	@FindBy(xpath = "//button[@type='submit']")
-	public WebElement saveButton;
+	@FindBy(xpath = "//div[@id='emp_gender_inputfileddiv']/div/ul/li")
+	public List<WebElement> genderOptions;
 
-	@FindBy(id = "smoker")
-	public WebElement smoker;
+	@FindBy(xpath = "//div[@id='nation_code_inputfileddiv']/div/input")
+	public WebElement nationInput;
 
-	@FindBy(id = "P1604189895_root")
-	public WebElement datePicker;
+	@FindBy(xpath = "//div[@id='nation_code_inputfileddiv']/div/ul/li")
+	public List<WebElement> nationOptions;
+
+	@FindBy(xpath = "//input[@id='emp_dri_lice_exp_date']/following-sibling::span[1]//i")
+	public WebElement licExpDate;
+
+	@FindBy(xpath = "//input[@id='emp_dri_lice_exp_date']/following-sibling::span[1]//div[@class='select-wrapper picker__select--year']/input")
+	public WebElement licExpYearInput;
+
+	@FindBy(xpath = "//input[@id='emp_dri_lice_exp_date']/following-sibling::span[1]//div[@class='select-wrapper picker__select--year']/ul/li")
+	public List<WebElement> licExpYearOptions;
+
+	@FindBy(xpath = "//input[@id='emp_dri_lice_exp_date']/following-sibling::span[1]//div[@class='select-wrapper picker__select--month']/input")
+	public WebElement licExpMonthInput;
+
+	@FindBy(xpath = "//input[@id='emp_dri_lice_exp_date']/following-sibling::span[1]//div[@class='select-wrapper picker__select--month']/ul/li")
+	public List<WebElement> licExpMonthOptions;
+
+	@FindBy(xpath = "//input[@id='emp_dri_lice_exp_date']/following-sibling::span[1]//table/tbody/tr/td")
+	public List<WebElement> licExpDays;
+
+	@FindBy(xpath = "//form[@id='pimPersonalDetailsForm']//button[@type='submit']")
+	public WebElement detailsSaveBtn;
+	// ----------
 
 	public PersonalDetailsPageElements() {
 		PageFactory.initElements(driver, this);

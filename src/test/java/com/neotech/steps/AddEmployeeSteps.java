@@ -6,6 +6,7 @@ import java.util.Map;
 import org.junit.Assert;
 
 import com.neotech.utils.CommonMethods;
+import com.neotech.utils.ExcelUtility;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
@@ -153,23 +154,52 @@ public class AddEmployeeSteps extends CommonMethods {
 		}
 	}
 
-	@Then("I am able to modify Employee Details {string}, {string}, {string}, {string}, {string}")
-	public void i_am_able_to_modify_employee_details(String DriverLicense, String ExpirationDate, String Smoker,
-			String Gender, String Nationality) {
+	@When("user enters employee data from {string} excel sheet then save")
+	public void user_enters_employee_data_from_excel_sheet_then_save(String sheetName) {
+		String path = System.getProperty("user.dir") + "/src/test/resources/testdata/Excel.xlsx";
 
-		sendText(personalDetails.licenseNrBox, DriverLicense);
-		selectDropdown(personalDetails.nationality, Nationality);
-		selectDropdown(personalDetails.gender, Gender);
-		// selectCalendarDate(personalDetails.datePicker, ExpirationDate);
+		List<Map<String, String>> excelList = ExcelUtility.excelIntoListOfMaps(path, sheetName);
+// [0] ---> Map<String,String>
+		// [1]----> Map<String,String>
+		// Homework
+		// Finish this example the same as in the previous method that uses DataTable
+		for (Map<String, String> employee : excelList) {
+			String fName = employee.get("FirstName");
+			String lName = employee.get("LastName");
+			String user = employee.get("Username");
+			String pass = employee.get("Password");
 
-		if (Smoker.equalsIgnoreCase("Yes")) {
-			jsClick(personalDetails.smoker);
+			System.out.println(fName + " " + lName + " " + user + " " + pass);
+
+			sendText(addEmployee.firstName, fName);
+			sendText(addEmployee.lastName, lName);
+
+			selectDropdown(addEmployee.location, "France Regional HQ");
+
+			wait(1);
+
+			jsClick(addEmployee.checkboxLoginDetails);
+			wait(1);
+
+			sendText(addEmployee.username, user);
+			sendText(addEmployee.password, pass);
+			sendText(addEmployee.confirmPassword, pass);
+			click(personalDetails.detailsSaveBtn);
+
+			waitForVisibility(personalDetails.personalDetailsForm);
+
+			// Validation
+			String expectedName = fName + " " + lName;
+			String actualName = personalDetails.employeeName.getText();
+
+			Assert.assertEquals("The employee name DOES NOT match!", expectedName, actualName);
+
+			// Before next iteration
+			// We need to go to Add Employee page again
+			wait(1);
+			click(dashboard.addEmployeeLink);
+			wait(1);
 		}
-
 	}
 
-	@Then("I click on Personal Details Save")
-	public void i_click_on_personal_details_save() {
-		click(personalDetails.saveButton);
-	}
 }

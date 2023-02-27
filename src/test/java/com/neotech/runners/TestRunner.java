@@ -19,9 +19,19 @@ import io.cucumber.junit.CucumberOptions;
 		dryRun = false,
 
 		// tags can do the same things groups on testng do
-		tags = "@HW4",
+		tags = "@sprint15",
 
-		monochrome = true)
+		monochrome = true,
+
+		plugin = {
+				// print the gherkin steps into the console
+				"pretty",
+				// creates a basic hmtl report on the target folder
+				"html:target/cucumber-default-report.html",
+				// store every step/info of the execution on this json file
+				"json:target/cucumber.json" }
+
+)
 
 public class TestRunner {
 

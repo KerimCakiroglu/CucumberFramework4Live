@@ -5,7 +5,7 @@ Feature: Add Employee With Personal Details
     Given user is logged in with valid credentials
     And user navigates to AddEmployee page
 
-  @HW4
+  @HW4 @regression
   Scenario Outline: Add and Modify Employee Details
     When user enters employee first name "<FirstName>" and last name "<LastName>"
     And user selects a location
